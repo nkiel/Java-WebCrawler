@@ -1,9 +1,23 @@
 import java.net.*;
+import java.util.ArrayList;
 import java.io.*;
 
 public class Parser {
+	String domain;
+	ArrayList<String> pagesToBeIndexed;
+	ArrayList<PageData> pageData;
 
-	public URL getURL(String urlString) {
+	public Parser(String domain){
+		domain = this.domain;
+	}
+	
+	public PageData getPageData(String path){
+		PageData data = new PageData();
+		
+		return data;
+	}
+	
+	public URL getURLobj(String urlString) {
 		URL url = null;
 		try {
 			url = new URL(urlString);
