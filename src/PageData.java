@@ -5,10 +5,15 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 public class PageData {
-	URL pageURL;
+	Document page;
 	String pageName;
-	String[] title;
+	String title;
 	String[] h1;
 	Map<String, String> altTags = new HashMap<String, String>();
 
@@ -19,34 +24,19 @@ public class PageData {
 	}
 
 	/*
-	 * Lazy man's Constuctor - will build the entire thing from a URL object.
+	 * Lazy man's Constructor - will build the entire SEO from a url String.
 	 */
-	public PageData(URL url) throws IOException {
-		pageURL = url;
-		// System.out.println("protocol = " + aURL.getProtocol());
-		// System.out.println("authority = " + aURL.getAuthority());
-		// System.out.println("host = " + aURL.getHost());
-		// System.out.println("port = " + aURL.getPort());
-		// System.out.println("path = " + aURL.getPath());
-		// System.out.println("query = " + aURL.getQuery());
-		// System.out.println("filename = " + aURL.getFile());
-		// System.out.println("ref = " + aURL.getRef());
-		// protocol = http
-		// authority = example.com:80
-		// host = example.com
-		// port = 80
-		// path = /docs/books/tutorial/index.html
-		// query = name=networking
-		// filename = /docs/books/tutorial/index.html?name=networking
-		// ref = DOWNLOADING
-		pageName = url.getPath();
+	public PageData(String url) throws IOException {
+		page = Jsoup.connect(url).get();
+		title = page.title();
+		Elements h1Tags = page.select("h1");
+		h1 = new String[h1Tags.size()];
+		for (int i = 0; i < h1Tags.size(); i++) {
+			System.out.println(h1Tags.get(i));
+		    h1[i] = h1Tags.get(i).text();
+		}
+		// alt tags
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-		String inputLine;
-		while ((inputLine = in.readLine()) != null)
-			System.out.println(inputLine);
-		in.close();
 	}
 
 	void addAltTag(String imgTitle, String altText) {
