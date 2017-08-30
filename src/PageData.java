@@ -27,15 +27,22 @@ public class PageData {
 	 * Lazy man's Constructor - will build the entire SEO from a url String.
 	 */
 	public PageData(String url) throws IOException {
+		// Title
 		page = Jsoup.connect(url).get();
 		title = page.title();
+		// H1
 		Elements h1Tags = page.select("h1");
 		h1 = new String[h1Tags.size()];
 		for (int i = 0; i < h1Tags.size(); i++) {
 			System.out.println(h1Tags.get(i));
 		    h1[i] = h1Tags.get(i).text();
 		}
-		// alt tags
+		// img alt Tags
+		Elements imgTags = page.select("img");
+		//foreach
+		//add to hash (url and alt tag)
+		// String img = link.attr("src");
+		// String alt = link.attr("alt");
 
 	}
 
